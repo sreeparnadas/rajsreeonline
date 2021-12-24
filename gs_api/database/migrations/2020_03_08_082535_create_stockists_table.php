@@ -18,8 +18,10 @@ class CreateStockistsTable extends Migration
             $table->bigIncrements('id');
             $table->string('stockist_unique_id',50)->unique();
             $table->string('stockist_name','100');
-            $table->string('user_id','255');
-            $table->string('user_password','255');
+//            $table->string('user_id','255');
+            $table->string('login_id','255');
+//            $table->string('user_password','255');
+            $table->string('login_password','255');
             $table->integer('serial_number');
             $table->double('current_balance')->default(0);
 
