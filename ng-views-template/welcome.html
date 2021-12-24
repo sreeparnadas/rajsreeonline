@@ -360,7 +360,8 @@
                                             <tr>
                                                 <td colspan="10"></td>
                                                 <td>
-                                                    <button type="button" class="group-box btn-success" ng-click="submitGameValues(seriesOne,seriesTwo,seriesThree)" ng-disabled="disableSubmitButton">Buy</button>
+<!--                                                    <button type="button" class="group-box btn-success" ng-click="submitGameValues(seriesOne,seriesTwo,seriesThree)" ng-disabled="disableSubmitButton">Buy {{leftHour}}</button>-->
+                                                    <button type="button" class="group-box btn-success" ng-click="submitGameValues(seriesOne,seriesTwo,seriesThree)" ng-disabled="disableSubmitButton || hour>=21">Buy</button>
                                                 </td>
                                                 <td>
                                                     <button type="button" class="group-box btn-info" ng-click="clearInputBox()">Clear</button>
