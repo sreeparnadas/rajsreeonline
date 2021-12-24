@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e0c17cbb-07d7-44d2-81ec-cb047be9dbf5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/angular-controller/PlayController.js" beforeDir="false" afterPath="$PROJECT_DIR$/angular-controller/PlayController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ng-views-template/welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/ng-views-template/welcome.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +46,7 @@
       <workItem from="1532590858818" duration="1557000" />
       <workItem from="1590856184170" duration="16000" />
       <workItem from="1590906687914" duration="7984000" />
-      <workItem from="1640360962359" duration="329000" />
+      <workItem from="1640360962359" duration="1595000" />
     </task>
     <servers />
   </component>

@@ -172,6 +172,15 @@ app.controller('PlayController', function($cookies,$scope,$rootScope,$q,md5,$mdD
 
     
     $scope.submitGameValues=function (seriesOne,seriesTwo,seriesThree) {
+
+        if($scope.hour>=21){
+            var alertTitle = 'Server Error';
+            var alertDescription ="";
+            $scope.showAlert(this.ev,alertTitle,alertDescription);
+            $scope.disableSubmitButton = false;
+            return;
+        }
+
         $scope.totalColumnToPrintReceipt = 5;
         $scope.disableSubmitButton = true;
         var userId = $scope.users.userId;

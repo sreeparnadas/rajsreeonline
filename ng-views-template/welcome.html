@@ -240,7 +240,8 @@
                                         <div>
                                             <table width="100%"><tbody><tr>
                                                 <td align="left"><span style=" font-size:16px; color: #fed22f">Current Time<strong><br><span style="color: #FFFFFF" id="currentTime">{{hour +':'+ minute + ':'+ second}}</span></strong></span></td>
-                                                <td align="center"><span style=" font-size:20px; color:#fed22f">Next Draw Time<strong><br><span style="color: #FFFFFF" id="nextDraw" ng-bind="drawTimeList.end_time"></span></strong></span></td>
+                                                <td align="center" ng-show="hour<21"><span style=" font-size:20px; color:#fed22f">Next Draw Time<strong><br><span style="color: #FFFFFF" id="nextDraw" ng-bind="drawTimeList.end_time"></span></strong></span></td>
+                                                <td align="center" ng-show="hour>=21"><span style=" font-size:20px; color:#fed22f">Next Draw Time<strong><br><span style="color: #FFFFFF" id="nextDraw"></span></strong></span></td>
                                                 <td align="right"><span style=" font-size:16px; color:#fed22f">Time Remaining<strong><br><span style="color: #FFFFFF;font-size:30px" id="timeRemaining">{{ leftHour + ':' + leftMinute + ':' + leftsecond}}</span></strong></span></td>
                                             </tr></tbody></table>							
                                         </div>
