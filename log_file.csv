@@ -1,0 +1,173 @@
+2018-06-27 05:40:37,X2H096X99A,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','C-00003-1819','C-00062-1718','','2018-06-27','',NULL,'',NULL,NULL,NULL,NULL,NULL,0.46,2397,NULL,NULL))
+2018-06-27 05:41:46,037XH43Y3A,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','C-00003-1819','C-00062-1718','','2018-06-27','27/06/2018',NULL,'',NULL,NULL,NULL,NULL,NULL,0.46,2397,NULL,NULL))
+2018-06-27 05:42:20,6X62384621,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','C-00003-1819','C-00062-1718','','2018-06-27','',NULL,'',NULL,NULL,NULL,NULL,NULL,0.46,2397,NULL,NULL))
+2018-06-27 05:43:54,2046YY56H9,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','C-00003-1819','C-00062-1718','555656','2018-06-27','456',NULL,'45456',NULL,NULL,NULL,NULL,NULL,0.46,2397,NULL,NULL))
+2018-06-27 05:49:44,6XX116167H,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','CR-00009-1718','C-00062-1718','','2018-06-27','','','','','',NULL,'','',NULL,NULL,'',''))
+2018-06-27 05:50:51,04X469769X,purchase_model,insert_opening,1064insert into purchase_master (
+                   purchase_master_id
+                  ,vendor_id
+                  ,employee_id
+                  ,invoice_no
+                  ,purchase_date
+                  ,eway_bill_no
+                  ,eway_bill_date
+                  ,vehicle_fare
+                  ,truck_no
+                  ,bilty_no
+                  ,licence_no
+                  ,transport_name
+                  ,transport_mobile
+                  ,roundedOff
+                  ,grand_total
+                  ,valid_from
+                  ,valid_to
+                ) VALUES ('PUR-00034-1819','CR-00009-1718','C-00062-1718','','2018-06-27','','','','','',NULL,'','',-0.4,2,'',''))
+2018-07-04 02:57:15,9A976XH889,purchase_model,insert_opening,1062update stock_transaction set
+                    stock_transaction_id='ST-PUR-00068-1819-3'
+                    , purchase_master_id='PUR-00068-1819'
+                    , product_id=1
+                    , unit_id=1
+                    , inward=2
+                    , memo_number=''
+                    , transaction_type_id=2
+2018-07-04 02:57:26,71177X9805,purchase_model,insert_opening,1062update stock_transaction set
+                    stock_transaction_id='ST-PUR-00068-1819-3'
+                    , purchase_master_id='PUR-00068-1819'
+                    , product_id=1
+                    , unit_id=1
+                    , inward=2
+                    , memo_number=''
+                    , transaction_type_id=2
+2018-07-05 02:32:26,AH2Y02Y49H,purchase_model,insert_opening,1062update stock_transaction set
+                    stock_transaction_id='ST-PUR-00074-1819-3'
+                    , purchase_master_id='PUR-00074-1819'
+                    , product_id=1
+                    , unit_id=1
+                    , inward=12.2
+                    , memo_number=''
+                    , transaction_type_id=2
+2018-07-19 08:00:46,H4A63AH9HY,purchase_model,insert_opening,1136insert into draw_details (
+                   draw_details_id
+                  ,draw_master_id
+                  ,fr_value
+                  ,sr_value
+                  ,record_date
+                ) VALUES ('FR-00001-19/07/2018',1,NULL,'20/07/2018')
+2018-07-19 08:01:32,9A69813X63,purchase_model,insert_opening,1136insert into draw_details (
+                   draw_details_id
+                  ,draw_master_id
+                  ,fr_value
+                  ,sr_value
+                  ,record_date
+                ) VALUES ('FR-00001-19/07/2018',1,NULL,'20/07/2018')
+2018-07-19 08:03:55,H4Y19YYA59,purchase_model,insert_opening,1136insert into draw_details (
+                   draw_details_id
+                  ,draw_master_id
+                  ,fr_value
+                  ,sr_value
+                  ,record_date
+                ) VALUES ('FR-00001-19/07/2018',1,'10','20/07/2018')
+2018-07-19 08:05:25,07Y5874416,purchase_model,insert_opening,1136insert into draw_details (
+                   draw_details_id
+                  ,draw_master_id
+                  ,fr_value
+                  ,sr_value
+                  ,record_date
+                ) VALUES ('FR-00001-19/07/2018',1,'','2018-07-20')
+2018-07-19 08:05:35,7862A84H48,purchase_model,insert_opening,1136insert into draw_details (
+                   draw_details_id
+                  ,draw_master_id
+                  ,fr_value
+                  ,sr_value
+                  ,record_date
+                ) VALUES ('FR-00001-19/07/2018',1,'12','2018-07-20')

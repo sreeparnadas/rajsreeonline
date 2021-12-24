@@ -1,0 +1,187 @@
+<div class="d-flex col-12">
+    <div class="col-12">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" ng-style="tab==1 && selectedTab" href="#" role="tab" ng-click="setTab(1)">Manual Result</a>
+            </li>
+        </ul>
+        <!-- Tab panels -->
+        <div class="tab-content">
+            <!--Panel 1-->
+            <div ng-show="isSet(1)">
+                <div id="row my-tab-1" class="bg-cpanel">
+                    <style type="text/css">
+                        .td-input{
+                            width: 90px;
+                        }
+                        
+                          .report-table tr th,.report-table tr td{
+                                border: 1px solid black !important;
+                                font-size: 20px;
+                                line-height: 1.5;
+                            }
+                    </style>
+                
+                                                                                                          
+                   
+                <input type="button" ng-click="x=!x;getEditableManual()" class="btn-warning" value="Update" ng-show="!x">
+                <input type="button" ng-click="x=!x" class="btn-warning" value="Add new" ng-show="x">
+                    
+                <div class="d-flex mt-5" ng-show="!x">
+                  
+                     <form class="form-inline" name="form1">
+
+
+                     <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Time</span>
+                            </div>
+                            <select required
+                                    class=""
+                                    data-ng-model="manualData.time"
+                                    data-ng-options="x as (x.end_time + ' ' + x.meridiem) for x in digitDrawTime">
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color:aquamarine" id="basic-addon1">{{ seriesList[0].game_initial }} &nbsp;{{(seriesList[0].mrp) || ''}}/-</span>
+                            </div>
+                            <input type="text" numbers-only disallow-spaces ng-model="manualData.series_one" maxlength="1" style="width:60px" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color:darkorange" id="basic-addon1">{{ seriesList[1].game_initial }} &nbsp;{{(seriesList[1].mrp) || ''}}/-</span>
+                            </div>
+                            <input type="text" numbers-only disallow-spaces ng-model="manualData.series_two" maxlength="1" style="width:60px"  aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="background-color:rosybrown" id="basic-addon1">{{ seriesList[2].game_initial }} &nbsp;{{(seriesList[2].mrp) || ''}}/-</span>
+                            </div>
+                            <input type="text" numbers-only disallow-spaces ng-model="manualData.series_three" maxlength="1" style="width:60px" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                       
+                        <input type="submit" value="Save" ng-click="submitManualResult(manualData)">
+                    </form> 
+                        
+                  </div>
+
+
+                  <span ng-show="editableResult.length==0 && x" class="font-weight-bold text-center">No data to update</span>
+                  <div class="d-flex mt-5" ng-show="x && editableResult.length!=0">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                                        
+                        <form class="form-inline" name="editManual">
+                                <div class="input-group mr-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">{{(editableResult[0].end_time+''+editableResult[0].meridiem) || 'Time'}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color:aquamarine" id="basic-addon1">{{seriesList[0].series_name}} &nbsp;{{(seriesList[0].mrp * 10) || ''}}/-</span>
+                                    </div>
+                                    <input type="text" numbers-only disallow-spaces ng-value="series_one_val" ng-model="series_one_val" maxlength="1" style="width:60px" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color:darkorange" id="basic-addon1">{{seriesList[1].series_name}} &nbsp;{{(seriesList[1].mrp * 10) || ''}}/-</span>
+                                    </div>
+                                    <input type="text" numbers-only disallow-spaces ng-value="series_two_val" ng-model="series_two_val" maxlength="1" style="width:60px"  aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color:rosybrown" id="basic-addon1">{{seriesList[2].series_name}} &nbsp;{{(seriesList[2].mrp * 10) || ''}}/-</span>
+                                    </div>
+                                    <input type="text" numbers-only disallow-spaces ng-value="series_three_val" ng-model="series_three_val" maxlength="1" style="width:60px" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+
+                                <input type="submit" value="Update" ng-click="updateManualResult(editableResult[0].draw_master_id,series_one_val,series_two_val,series_three_val)">
+                            </form> 
+                    
+                    
+                    
+                    </div>
+                    <div class="col-1"></div>
+                     
+                </div>
+
+                </div>
+
+
+
+            <!-- GET INPUT TOTAL DRAW AND GAME WISE -->
+                    <hr size="30">
+                <div class="d-flex mb-5 mt-5">
+                    <div class="col-3 font-weight-bold">Select Draw:</div>
+                    <div class="col-3">
+                        <select ng-change="getInputTotalDrawAndGameWise(time.id)"
+                                data-ng-model="time"
+                                data-ng-options="x as (x.end_time + ' ' + x.meridiem) for x in timeList">
+                        </select>
+                    
+                    </div>
+                    
+                </div>
+                <div class="d-flex">
+                    <div class="col" offset="2">
+                        <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover report-table small text-justify">
+                                        <thead>
+                                        <tr>
+                                            <th class="p-0 text-center">Game</th>
+                                            <th class="p-0  text-center">Zero</th>
+                                            <th class="p-0  text-center">One</th>
+                                            <th class="p-0  text-center">Two</th>
+                                            <th class="p-0 text-center">Three</th>
+                                            <th class="p-0  text-center">Four</th>
+                                            <th class="p-0  text-center">Five</th>
+                                            <th class="p-0 text-center ">Six</th>
+                                            <th class="p-0 text-center ">Seven</th>
+                                            <th class="p-0 text-center ">Eight</th>
+                                            <th class="p-0 text-center ">Nine</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr ng-repeat="x in inputTotalRecord" >
+                                            <td class="p-0 text-center">
+                                               {{x.series_name}}
+                                            </td>
+                                            <td class="p-0 text-center"> {{x.zero}}</td>
+                                            <td class="p-0 text-center">{{x.one}}</td>
+                                            <td class="p-0  text-center">{{x.two}}</td>
+                                            <td class="p-0  text-center">{{x.three}}</td>
+                                            <td class="p-0  text-center">{{x.four}}</td>
+                                            <td class="p-0 text-center">{{x.five}}</td>
+                                            <td class="p-0 text-center">{{x.six}}</td>
+                                            <td class="p-0 text-center">{{x.seven}}</td>
+                                            <td class="p-0 text-center">{{x.eight}}</td>
+                                            <td class="p-0 text-center">{{x.nine}}</td>
+                                            
+                                        </tr>
+                                        </tbody>
+
+                        </table>
+                        <div ng-show="inputTotalRecord.length==0" class="text-center">No records</div>   
+                        
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

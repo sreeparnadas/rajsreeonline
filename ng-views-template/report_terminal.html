@@ -1,0 +1,219 @@
+<style type="text/css">
+          
+            .report-table tr th,.report-table tr td{
+                border: 1px solid black !important;
+                font-size: 12px;
+                line-height: 0px;
+            }
+            a[ng-click]{
+                cursor: pointer;
+            }
+        </style>
+        <div class="d-flex">
+            <div class="p-2 my-flex-item col-12">
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <!-- Brand -->
+            <a class="navbar-brand" href="#">{{title}}</a>
+
+                    <a href="javascript:window.open('','_self').close();" class="text-white">Close</a>
+                </nav>
+            </div>
+
+        </div>
+        <div class="d-flex col-12">
+            <div class="col-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" ng-style="tab==1 && selectedTab" href="#" role="tab" ng-click="setTab(1)">Total Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" ng-style="tab==2 && selectedTab" href="#" role="tab" ng-click="setTab(2)">Barcode Wise</a>
+                    </li>
+                </ul>
+                <!-- Tab panels -->
+                <div class="tab-content">
+                    <!--Panel 1-->
+                    <div ng-show="isSet(1)">
+                        <div id="row my-tab-1">
+                            <form name="stockistForm" class="form-horizontal">
+                                <div class="card">
+
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-center">
+                                            <div class=""><input type="date" class="form-control" ng-model="start_date" ng-change="changeDateFormat(start_date)"></div>
+                                            <div class="ml-2 mr-2">To</div>
+                                            <div class=""><input type="date" class="form-control" ng-model="end_date" ng-change="changeDateFormat(end_date)"></div>
+                                            <div class="ml-2"><input type="button" class="btn btn-info form-control" value="Show" ng-click="getNetPayableDetailsByDate(start_date,end_date)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="loader mt-1" ng-show="isLoading"></div>
+                                        </div>
+
+                                        <div class="d-flex" ng-show="!isLoading">
+                                            <div class="col-3"></div>
+                                            <div class="col-6">
+                                                <table cellpadding="0" cellspacing="0" class="table table-bordered table-hover small text-justify">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="p-0 pl-1 text-center col-1">Date</th>
+                                                        <th class="p-0 pl-1 text-center col-1">Amount</th>
+                                                        <th class="p-0 pl-1 text-center col-1">Commission</th>
+                                                        <th class="p-0 pl-1 text-center col-1">Prize Value</th>
+                                                        <th class="p-0 pl-1 text-center col-1">Net payable</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    
+                                                    <tr ng-repeat="x in saleReport">
+                                                        <td class="p-0 pl-1">{{x.ticket_taken_time}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.amount | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.commision | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.prize_value}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.net_payable | number:2}}</td>
+                                                    </tr>
+                                                    <tr ng-show="cardSaleReport.length">
+                                                        <td class="p-0 pl-1 text-left font-weight-bold" colspan="5">Card</td>
+                                                    </tr>
+                                                    <tr ng-repeat="x in cardSaleReport">
+                                                        <td class="p-0 pl-1">{{x.ticket_taken_time}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.amount | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.commision | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.prize_value}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{x.net_payable | number:2}}</td>
+                                                    </tr>
+
+                                                    </tbody>
+
+                                                    <tfoot ng-show="saleReport.length">
+                                                    <tr>
+                                                        <td class="p-0 pl-1">Total</td>
+                                                        <td class="p-0 pl-1 text-right">{{(saleReportFooter.total_amount) | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{(saleReportFooter.total_commision) | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{(saleReportFooter.total_prize_value) | number:2}}</td>
+                                                        <td class="p-0 pl-1 text-right">{{(saleReportFooter.total_net_payable) | number:2}}</td>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                            <div class="col-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="d-flex justify-content-center" ng-show="alertMsg && alertMsgCard">
+                                    <div>No records found</div>
+                                </div>
+                            </form>
+                        </div> 
+                    </div>
+
+                    <div ng-show="isSet(2)">
+                        <div id="my-tab-2">
+
+                            <div class="d-flex justify-content-center mb-1">
+                               <!-- <div class="col-2" ng-show="!selectDate"><input type="text" class="form-control" ng-model="winning_date" ng-change="changeDateFormat(start_date)" readonly></div>-->
+                                <div class="col-2" ><input type="date" class="form-control" ng-model="barcode_report_date" ng-change="changeDateFormat(start_date)"></div>
+
+                                <div class="col-2">
+                                    <select class="form-control " ng-change="getAllBarcodeDetailsByDate(barcode_report_date,select_game.id,select_barcode_type.id,select_draw_time)"
+                                            data-ng-model="select_barcode_type" data-ng-value="{{x.id}}"
+                                            data-ng-options="x as x.type for x in barcodeType">
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    <select ng-model="select_draw_time" class="form-control">
+                                        <option value="0" selected="All">All</option>
+                                        <option ng-repeat="x in drawTime" value="{{x.id}}">
+                                            {{(x.end_time |limitTo: 5)}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" ng-model="select_barcode" placeholder="Enter Barcode">
+                                </div>
+
+                                <div class="ml-2"><input type="button" class="btn btn-info form-control" value="Show" ng-click="getAllBarcodeDetailsByDate(barcode_report_date,select_barcode_type.id,select_draw_time)"></div>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                <div class="loader mt-1" ng-show="isLoading2"></div>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between" ng-show="!isLoading2">
+
+                                <div class="col">
+                                    <table cellpadding="0" cellspacing="0" class="table table-hover report-table  text-justify">
+                                        <tr>
+                                            <th>SL</th>
+                                            <th>D.Time</th>
+                                            <th>T.Time</th>
+                                            <th>Barcode</th>
+                                            <th>Qty</th>
+                                            <th>Amount</th>
+                                            <th>Prize</th>
+                                            <th>Particulars</th>
+                                            <th ng-show="select_barcode_type.id==2"></th>
+                                        </tr>
+                                        <tbody ng-repeat="x in showbarcodeReport | filter : select_barcode">
+                                        <tr>
+                                            <td>{{ $index+1}}</td>
+                                            <td>{{x.draw_time +' '+ x.meridiem}}</td>
+                                            <td>{{x.ticket_taken_time}}</td>
+                                            <td>{{x.barcode_number}}</td>
+                                            <td>{{x.quantity |number:2}}</td>
+                                            <td>{{x.amount |number:2}}</td>
+                                            <td>{{x.prize_value |number:2}}</td>
+                                            <td>
+
+
+                                                <a href="#" type="button" data-toggle="modal" data-target="#flipFlop" ng-click="showParticulars($index,x.barcode_number)">
+                                                    Click here
+                                                </a>
+                                            </td>
+                                            <td ng-show="select_barcode_type.id==2">
+                                                <input type="button" value="Claim" class="btn btn-secondary" ng-click="claimedBarcodeForPrize(x,select_game.id)" ng-show="x.is_claimed == 0">
+                                                <input type="button" value="Claimed" class="btn btn-success" ng-disabled="true" ng-show="x.is_claimed == 1">
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex justify-content-center" ng-show="alertMsg2">
+                                        <div>No records found</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- The modal -->
+                            <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modalLabel">View details</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="word-wrap: break-word">
+                                            {{showbarcodeReport[target].particulars}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
