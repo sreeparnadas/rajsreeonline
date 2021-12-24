@@ -6,7 +6,6 @@ use App\Model\PlayMaster;
 use App\Model\BarcodeMax;
 use App\Model\PlayDetails;
 use App\Model\StockistToTerminal;
-use App\Model\ClaimDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\CentralFunctionController;
@@ -70,37 +69,5 @@ class PlayMasterController extends Controller
             }
 
             return response()->json(['success'=> 1,'barcode'=>$barcode, 'purchase_date' => $currentDate, 'purchase_time' => $currentTime,'current_balance'=> $currentBalance->current_balance], 200);
-    }
-
-
-    public function claimBarcodeManually(request $request){
-        $requestedData = (object)($request->json()->all());
-        $terminalId = $requestedData->terminalId;
-        $gameId = $requestedData->gameId;
-        $prizeValue = $requestedData->prizeValue;
-        $playMasterId = $requestedData->playMasterId;
-        DB::beginTransaction();
-        try {
-            $claimDetailsObj = new ClaimDetails();
-            $claimDetailsObj->game_id = $gameId;
-            $claimDetailsObj->play_master_id = $playMasterId;
-            $claimDetailsObj->terminal_id = $terminalId;
-            $claimDetailsObj->prize_value = $prizeValue;
-            $claimDetailsObj->save();
-
-            StockistToTerminal::where('terminal_id', $terminalId)
-                ->update(array(
-                    'current_balance' => DB::raw( 'current_balance +'.$prizeValue)
-                ) );
-
-            PlayMaster::where('id',$playMasterId)->update(['is_claimed' =>1]);
-            DB::commit();
-        }
-        catch (Exception $e)
-        {
-            DB::rollBack();
-            return response()->json(array('msg' => $e->getMessage().'<br>File:-'.$e->getFile().'<br>Line:-'.$e->getLine()),401);
-        }
-        return response()->json(['success'=> 1,'msg'=>'claimed','is_claimed'=>1], 200);
     }
 }

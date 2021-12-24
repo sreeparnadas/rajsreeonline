@@ -14,7 +14,7 @@ class StockistController extends Controller
     public function getAllStockists(){
         $allStockists = Stockist::select('id','stockist_unique_id','stockist_name','user_id','user_password','serial_number','current_balance','person_category_id')
         ->where('inforce',1)->get();
-        echo json_encode($allStockists,JSON_NUMERIC_CHECK);
+        echo json_encode($allStockists);
     }
 
     public function selectNextStockistId(){

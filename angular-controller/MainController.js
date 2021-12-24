@@ -1,4 +1,4 @@
-app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,$interval,toaster,$http,UserService,$q,RegistrationService,ParticipantService,$window,proofService,localStorageService,$rootScope,$auth) {
+app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,$interval,toaster,$http,UserService,$q,RegistrationService,ParticipantService,$window,proofService,localStorageService,$rootScope,$auth,authFact) {
 
     //for showing developer area, creating a developer mode object
     $scope.title="Rajsree";
@@ -53,6 +53,22 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
             $scope.loggedInTerminalBalance = response.data;
         });
     };
+    $scope.openResetPasswordPopup = function(event) {
+        $mdDialog.show ({
+            clickOutsideToClose: true,
+            scope: $scope,
+            preserveScope: true,
+            templateUrl: 'md_dialog_template/login_user.html',
+            clickOutsideToClose: false,
+            escapeToClose: false,
+
+            controller: function DialogController($scope, $mdDialog) {
+                // $scope.closeDialog = function() {
+                //     $mdDialog.hide();
+                // }
+            }
+        });
+    };
 
     $scope.entrant_image_url=entrant_image_url;
     $http.defaults.headers.common['uuid']= "asdfasdfasdfasdfasdfass";
@@ -66,21 +82,25 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
      $scope.users.userLoginid = $scope.loginDetails.person.user_id || '';
 
      try {
-
+         
         $scope.loginDetails=localStorageService.get('loginData') || $scope.loginDetails;
+        $scope.token = $scope.loginDetails.person.uuid;
         if($scope.loginDetails.isLoggedIn && $scope.loginDetails.person.person_category_id == 1){
-        
+            authFact.setAccessToken($scope.token);
             $window.location.href = base_url + '#!/admin';
             
         }
         if($scope.loginDetails.isLoggedIn && $scope.loginDetails.person.person_category_id == 4){
-           
+            authFact.setAccessToken($scope.token);
             $window.location.href = base_url + '#!/stockistPanel';
             
         }
         if($scope.loginDetails.isLoggedIn){
             $scope.setUserData($scope.loginDetails);
             $scope.getActiveTerminalBalance($scope.loginDetails.person.id);
+            if($scope.loginDetails.person.reset_password){
+                $scope.openResetPasswordPopup();
+            }
         }
       }
       catch(err) {
@@ -213,9 +233,12 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
             $scope.loginDetails=data;
             $scope.token = $scope.loginDetails.person.uuid;
             $auth.setToken($scope.token);
+            authFact.setAccessToken($scope.token);
             $scope.getActiveTerminalBalance($scope.loginDetails.person.id);
             toaster.pop('success',data.msg,' Welcome '+ $scope.users.person_name);
-
+            if($scope.loginDetails.person.reset_password && $scope.loginDetails.person.person_category_id==3){
+                $scope.openResetPasswordPopup();
+            }
             if($scope.users.person_category_id == 1) {
                 $window.location.href = base_url + '#!/admin';
             }
@@ -226,6 +249,63 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
         });
 
 
+    };
+    
+    $scope.passwordMatchFlag = true;
+    $scope.confirmPassword = function(new_password,confirm_password){
+        if(new_password!=confirm_password){
+            $scope.passwordMatchFlag = false;
+        }else{
+            $scope.passwordMatchFlag = true;
+        }
+    };
+    $scope.resetTerminalPassword = function(loginData){
+        $scope.loginDefer = $q.defer(); // This also creates an instance of promise
+        //$scope.publish(); // This is our async function call
+        $http({
+            method: 'POST',
+            url: api_url+"/v1/resetPassword",
+            dataType: 'json',
+            data: {
+                terminal_id: $scope.users.userId,
+                current_password: loginData.current_password,
+                new_password: loginData.new_password
+            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(function (response){
+            if(response.data.success==1){
+                $scope.loginDefer.resolve(response.data);
+                $scope.loginError="";
+            }else{
+                toaster.pop('warning',response.data.message);
+                // $scope.users.person_name="";
+                // $scope.users.uuid="";
+                // $scope.users.person_category_id = 0;
+                // $scope.users.userId = 0;
+                // $scope.users.userLoginid= '';
+                // localStorageService.set('loginData', ' ');
+            }
+        },function (error){
+
+        });
+        $scope.loginDefer.promise.then(function(data){
+            localStorageService.set('loginData', data);
+            toaster.pop('success',data.message);
+            $mdDialog.hide();
+            var request = $http({
+                method: 'POST',
+                url: api_url+"/v1/logout",
+                dataType:JSON,
+                data: {
+                    uid: $scope.users.userId,
+                    userCategoryId: $scope.users.person_category_id
+                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function(response){
+                $scope.unsetUserData();
+                authFact.unsetAccessToken();
+             });
+        });
     };
     
 
@@ -245,21 +325,6 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
     /****** test function ***********/
 
     /****** ***********/
-    $scope.loginUser = function(event) {
-        $mdDialog.show ({
-            clickOutsideToClose: true,
-            scope: $scope,
-            preserveScope: true,
-            templateUrl: 'md_dialog_template/login_user.html',
-
-            controller: function DialogController($scope, $mdDialog) {
-                $scope.closeDialog = function() {
-                    $mdDialog.hide();
-                }
-            }
-        });
-    };
-
 
 
     $scope.logoutUserWithConfirmation = function(event) {
@@ -283,6 +348,7 @@ app.controller('MainController', function($cookies,$scope,$q,$mdDialog,$timeout,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             }).then(function(response){
                 $scope.unsetUserData();
+                authFact.unsetAccessToken();
              });
           
         }, function() {

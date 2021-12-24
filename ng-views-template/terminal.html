@@ -42,7 +42,7 @@
                                 <div class="d-flex mt-1">
                                     <label  class="col-3">Password<span class="text-danger"></span></label>
                                     <div class="col-3">
-                                        <input type="text" class="form-control" ng-model="terminal.user_password" required/>
+                                        <input type="text" class="form-control" ng-model="terminal.default_password" required/>
                                     </div>
                                     <div class="col-3">
                                         <input type="button" class="btn btn-success"  ng-click="randomPass(8,true,true,true)" value="Generate password" />
@@ -111,7 +111,7 @@
                                 <td>{{ $index+1}}</td>
                                 <td>{{x.people_name}}</td>
                                 <td>{{x.user_id}}</td>
-                                <td>{{x.user_password}}</td>
+                                <td>{{x.default_password}}</td>
                                 <td>{{x.stockist_name}}</td>
                                 <td ng-click="updateTerminalFromTable(x)"><a href="#">Edit</a></td>
                             </tr>

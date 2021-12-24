@@ -8,11 +8,11 @@ class authenticatedUser
 {
     public function bearerToken()
     {
-         if(isset($_SERVER['HTTP_AUTHORIZATION']))
-             $headers = $_SERVER['HTTP_AUTHORIZATION'];
-         if (isset($headers) && $headers != '') {
-             return substr($headers, 7);
-         }
+        if(isset($_SERVER['HTTP_AUTHORIZATION']))
+            $headers = $_SERVER['HTTP_AUTHORIZATION'];
+        if (isset($headers) && $headers != '') {
+            return substr($headers, 7);
+        }
     }
 
 

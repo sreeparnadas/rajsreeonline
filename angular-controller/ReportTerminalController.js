@@ -1,7 +1,11 @@
-app.controller("ReportTerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFilter,$timeout,$interval,$window) {
+app.controller("ReportTerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFilter,$timeout,$interval,$window,authFact) {
     $scope.msg = "This is Terminal report controller";
     $scope.tab = 1;
-
+    $scope.token = $scope.loginDetails.person.uuid;
+    console.log($scope.loginDetails);
+    if($scope.token==undefined){
+        $window.location.href = base_url;
+    }
     $scope.setTab = function(newTab){
         $scope.tab = newTab;
     };

@@ -70,7 +70,7 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
                 tempTerminal.stockist_name=$scope.terminal.stockist.stockist_name;
                 tempTerminal.people_name=$scope.terminal.people_name;
                 tempTerminal.user_id=$scope.terminal.user_id;
-                tempTerminal.user_password=$scope.terminal.user_password;
+                tempTerminal.default_password=$scope.terminal.default_password;
                 $scope.terminalList.unshift(tempTerminal);
                 $scope.terminalForm.$setPristine();
             }
@@ -81,7 +81,7 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
     $scope.defaultTerminal={
         person_name: ""
         ,user_id: ""
-        ,user_password: ""
+        ,default_password: ""
     };
     $scope.terminal=$scope.defaultTerminal;
     $scope.randomPass=function(length, addUpper, addSymbols, addNums) {
@@ -103,8 +103,8 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
             if (addSymbols && !/\W/.test(pass)) continue; // check symbols
             if (addNums && !/\d/.test(pass)) continue; // check nums
 
-            $scope.terminal.user_password=pass;
-            return $scope.terminal.user_password;
+            $scope.terminal.default_password=pass;
+            return $scope.terminal.default_password;
         }
     }
 
@@ -123,7 +123,6 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
             }
             var stockistId=$scope.users.userLoginid;
             var personCatTd=$scope.users.person_category_id;
-            console.log($scope.users,stockistId,$scope.stockistList);
             if(personCatTd==4){
                 $scope.stockistList=alasql("SELECT *  from ? where user_id=?",[$scope.stockistList,stockistId]);
             }
@@ -139,7 +138,6 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
         var index=$scope.terminalList.indexOf(terminal);
         $scope.updateableTerminalIndex=index;
         var stockistIndex=$scope.findObjectByKey($scope.stockistList,'id',terminal.stockist_id);
-        
         $scope.terminal.stockist=stockistIndex;
         $scope.terminalForm.$setPristine();
     };
@@ -162,7 +160,19 @@ app.controller("TerminalCtrl", function ($scope,$http,$filter,$rootScope,dateFil
                 $timeout(function() {
                     $scope.updateStatus = false;
                 }, 4000);
-                $scope.terminalList[$scope.updateableTerminalIndex]=$scope.terminal;
+                var tempData = {
+                    terminal_id: $scope.terminal.terminal_id,
+                    stockist_id: $scope.terminal.stockist.id,
+                    stockist_name: $scope.terminal.stockist.stockist_name,
+                    stockist_user_id: $scope.terminal.stockist.user_id,
+                    people_name: $scope.terminal.people_name,
+                    user_id: $scope.terminal.user_id,
+                    user_password: $scope.terminal.user_password,
+                    default_password:$scope.terminal.default_password,
+                    terminal_current_balance: $scope.terminal.terminal_current_balance,
+                    stockist_current_balance: $scope.terminal.stockist_current_balance
+                };
+                $scope.terminalList[$scope.updateableTerminalIndex]=tempData;
                 $scope.terminalForm.$setPristine();
             }
 

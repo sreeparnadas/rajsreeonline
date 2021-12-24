@@ -2,32 +2,39 @@
     <div layout="column" layout-align="center center" layout-fill="layout-fill">
         <div layout="column" class="loginBox md-whiteframe-z1">
             <md-toolbar>
-                <h2 class="md-toolbar-tools"><span>Login</span></h2>
+                <h2 class="md-toolbar-tools"><span>Reset password</span></h2>
             </md-toolbar>
             <form name="loginForm">
-                <md-content layout="column" class="md-padding">
+                <md-content layout="row" class="md-padding">
                     <md-input-container>
-                        <label>Username</label>
-                        <input required type="text" ng-model="loginData.userName" name="userName" />
-                        <div ng-messages="loginForm.userName.$error">
+                        <label>Enter Current Password</label>
+                        <input required type="text" ng-model="loginData.current_password" name="currentPassword" />
+                        <div ng-messages="loginForm.currentPassword.$error">
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
                     <md-input-container>
-                        <label>Password</label>
-                        <input required type="password" ng-model="loginData.password" name="password" />
-                        <div ng-messages="loginForm.password.$error" role="alert">
+                        <label>Enter new Password</label>
+                        <input required type="password" ng-model="loginData.new_password" name="newPassword"/>
+                        <div ng-messages="loginForm.newPassword.$error" role="alert">
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                    {{loginError}}
+                    <md-input-container>
+                        <label>Confirm New Password</label>
+                        <input required type="password" ng-model="loginData.confirm_password" name="confirmPassword" />
+                        <div ng-messages="loginForm.confirmPassword.$error" role="alert">
+                            <div ng-if="loginForm.newPassword.$modelValue != loginForm.confirmPassword.$modelValue">Password do not match</div>
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
                     <div layout="row" layout-align="center center">
-                        <md-button type="submit" class="md-raised md-primary" ng-click="validateUser()">Login</md-button>
+                        <md-button type="submit" ng-disabled="!(loginForm.$valid) || (loginForm.newPassword.$modelValue != loginForm.confirmPassword.$modelValue)" class="md-raised md-primary" ng-click="resetTerminalPassword(loginData)">Reset</md-button>
                         <div flex="flex"></div>
-                        <md-button href="" md-no-ink>Forgot Password</md-button>
+                        <!-- <md-button href="" md-no-ink>Forgot Password</md-button> -->
                     </div>
-                    <md-divider></md-divider>
-                    <md-button href="#" md-no-ink>Sign Up</md-button>
+                    <!-- <md-divider></md-divider>
+                    <md-button href="#" md-no-ink>Sign Up</md-button> -->
                 </md-content>
             </form>
         </div>

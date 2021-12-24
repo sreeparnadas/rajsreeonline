@@ -1,0 +1,519 @@
+<style>
+            .report-table tr th,.report-table tr td{
+                border: 1px solid black !important;
+                font-size: 25px;
+                line-height: 0px;
+                white-space:nowrap;
+                font-weight:bold;
+                padding: 25px;
+                
+            }
+            .report-table tr th{
+                padding: 25px;
+            }
+            .border-less {
+                border-style:hidden!important;
+            }
+
+            .textBoxClass {
+                width: 45px;
+                height: 20px;
+                text-align: center;
+                font-weight: bold;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+            }
+            
+
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: red;
+                color: white;
+                text-align: center;
+            }
+
+
+            .submit a {
+                color: white;
+                padding: 5px 11px;
+                border-style: 2px solid
+            }
+
+			
+			.table-style{
+				border: 1px solid black !important;
+                font-size: 12px;
+			}
+
+            .heading-style{
+                color:#bb0000;
+                background-color:#ebc614;;
+                font-size: x-large;
+            }
+            .inputBox{
+                height: 40px;
+                width:  45px;
+                background-color:#f5f5f5;
+                border:1px solid #aaa;
+                margin: 5px 4px 6px 0;
+                font-size: 1.5rem;
+            }
+            .inputBoxTotal{
+                height: 40px;
+                width:  60px;
+                background-color:#f5f5f5;
+                border:1px solid #aaa;
+                margin: 5px 4px 6px 0;
+                font-size: 1.5rem;
+            }
+
+
+            .game-name{
+                color:#990000;
+                border-radius:5px;
+                background-image:url(img/buttonshape.png);
+                background-repeat: no-repeat;
+                background-position: center;
+            }   
+            
+            .result-sheet-style{
+                font-size: 3vw!important;
+                padding: 25px!important;
+            }
+            
+
+            .blink_text {
+            
+                animation:1s blinker linear infinite;
+                -webkit-animation:1s blinker linear infinite;
+                -moz-animation:1s blinker linear infinite;
+            
+                 color: red;
+                }
+            
+                @-moz-keyframes blinker {  
+                 0% { opacity: 1.0; }
+                 50% { opacity: 0.0; }
+                 100% { opacity: 1.0; }
+                 }
+            
+                @-webkit-keyframes blinker {  
+                 0% { opacity: 1.0; }
+                 50% { opacity: 0.0; }
+                 100% { opacity: 1.0; }
+                 }
+            
+                @keyframes blinker {  
+                 0% { opacity: 1.0; }
+                 50% { opacity: 0.0; }
+                 100% { opacity: 1.0; }
+                 }
+		
+            
+        </style>
+<div id="pagewrap" style="border: 1px solid black;" data-ng-controller="PlayController" data-ng-show="users.person_category_id==3 || users.person_category_id==0">       
+        
+        
+
+    <div class="row col-xs-12 col-md-12 col-lg-12 col-sm-12"  id="content">
+        <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12  pt-0 pb-0">
+                
+                <style>
+                
+                    #result-table{
+                        background-color:#990000;
+                        color:white;
+                        font-size:x-large;
+                    }
+
+                    .footerContent{
+                        background-color: #931722;
+                        font-size: 10px;
+                        line-height: 1.2;
+                        color: antiquewhite;
+                    }
+                    #rcorners1 {
+                        border-radius: 25px;
+                        background: #73AD21;
+                        padding: 20px; 
+                        width: 200px;
+                        height: 150px;  
+                    }
+                    .result-page{
+                        background-repeat: no-repeat;
+                        background-position: center; 
+                        background-image:url(img/game_bg.png);
+                        background-size: contain;
+                        font-size: 40px;
+                    
+                    }
+                    .result-in-top{
+                        background-repeat: no-repeat;
+                        background-position: center; 
+                        background-image:url(img/res_bg.png); 
+                        background-size: 85px 85px;
+                        width:55px; height:45px; font-size:4vw; color: rgb(255,0,0);
+                        text-shadow: 5px 5px #74d9ea;
+                    }
+
+                    .my-button{
+                        font-weight: 400;
+                        border-width: 2px;
+                        font-style: normal;
+                        letter-spacing: normal;
+                        margin: .4rem .8rem;
+                        /*white-space: normal;*/
+                        -webkit-transition: all 0.3s ease-in-out;
+                        -moz-transition: all 0.3s ease-in-out;
+                        transition: all 0.3s ease-in-out;
+                        display: -webkit-inline-flex;
+                        display: inline-flex;
+                        -webkit-align-items: center;
+                        align-items: center;
+                        -webkit-justify-content: center;
+                        justify-content: center;
+                        /*word-break: break-word;*/
+                        padding: 0.5rem 2rem;
+                        border-radius: 0.25rem;
+                    }
+                </style>
+
+                <div id="terminal">
+                    <div class="d-flex flex-column font-weight-bold" style="background-color:#931722;font-size:30px;color:white"> <marquee style="font-weight:1000">{{scrollingMsg.message}}</marquee></div>
+                        <table class="table-responsive" style="width:100%;background-color:#931722">
+                            <tbody>
+                                <tr>
+                                    <td><img class="img-responsive" style="width:200px;margin-left:5px" src="img/logo.png"></td>
+                                    <td>
+                                <div align="center" style="margin:20px">
+                                    <table style="border: #e9561b;" width="100%">
+                                    <tbody><tr>
+                                                            <td style="width:10vw" align="center"><span style=" font-size:18px;  vertical-align: auto; color:#FFFFFF">
+                                                                    <span style="color: #fed22f; font-size: medium ">Date</span>
+                                                                    <strong><br><span id="todays_date">{{gameStartingDate}}</span><br> 
+                                                                    <span style="color: #fed22f; font-size: medium ">Last Draw</span><br>
+                                                                    <span id="result_time">{{ winningValue[0].end_time }} </span></strong></span></td>
+                                        <td align="center" style="width:80vw">
+                                            <span style=" font-size:24px; color:#FFFFFF"><strong>
+                                        <table style="color:#990000; text-align:center; font-size:18px; width:100%;">
+                                                    <tbody><tr>
+                                                        <td class="result-page"> <strong>{{ allSeriesList[0].game_initial }}</strong><br></td>
+                                                        <td class="result-page"> <strong>{{ allSeriesList[1].game_initial }}</strong><br></td>
+                                                        <td class="result-page"><strong>{{ allSeriesList[2].game_initial }}</strong><br></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="result-in-top"><span id="result_GA">
+                                                            {{ winningValue[0].result_box }}
+                                                        
+                                                        </span></td>
+                                                        <td class="result-in-top"><span id="result_GB">
+                                                            {{ winningValue[1].result_box }}
+                                                        </span></td>
+                                                        <td class="result-in-top"><span id="result_GC">
+                                                            {{ winningValue[2].result_box }}
+                                                        </span></td>
+                                                    </tr>
+                                                </tbody></table>
+                                                    </strong>
+                                                </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>							
+                        </div>
+                                    
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column" ng-show="!loginDetails.isLoggedIn">
+                                            <form class="form-inline" name="login_form">
+                                                <input type="text" style="width:200px;height:40px;font-size:x-large" ng-model="loginData.userId" id="email" placeholder="user name" required>
+                                                <label for="pwd">  :</label>
+                                                <input type="password" style="width:200px;height:40px;font-size:x-large" ng-model="loginData.password" id="pwd" placeholder="Password" required>
+                                                
+                                                <button type="submit" class="btn btn-success mt-2" ng-click="validateUser()" ng-disabled="login_form.$invalid">Login</button>   
+                                            </form> 
+                                        </div>
+
+                                        <div class="d-flex flex-column bg-gray-2" ng-show="loginDetails.isLoggedIn">
+                                            <div class="col-12 pull-right pt-3 pb-3">
+                                                <button type="submit" class="my-button btn-info" ng-click="logoutUserWithConfirmation($event);">Logout</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td colspan="16">
+                                        <div>
+                                            <table width="100%"><tbody><tr>
+                                                <td align="left"><span style=" font-size:16px; color: #fed22f">Current Time<strong><br><span style="color: #FFFFFF" id="currentTime">{{hour +':'+ minute + ':'+ second}}</span></strong></span></td>
+                                                <td align="center"><span style=" font-size:20px; color:#fed22f">Next Draw Time<strong><br><span style="color: #FFFFFF" id="nextDraw" ng-bind="drawTimeList.end_time"></span></strong></span></td>
+                                                <td align="right"><span style=" font-size:16px; color:#fed22f">Time Remaining<strong><br><span style="color: #FFFFFF;font-size:30px" id="timeRemaining">{{ leftHour + ':' + leftMinute + ':' + leftsecond}}</span></strong></span></td>
+                                            </tr></tbody></table>							
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                     
+            
+                
+                        <div class="d-flex flex-column">
+                            <div class="submit text-white p-2" style="background-color:#222">
+                                                                
+                                <span class="text-left pl-5" >Terminal id: <b>{{users.userLoginid}}</b>
+                                
+                                &nbsp;</span>
+                                <span class="text-left">Agent:<b>{{users.person_name}} </b></span>
+                                <span class="text-left">Balance:  <b>{{users.userId? loggedInTerminalBalance.current_balance : ''}} </b></span>
+                            
+                                <a href="#" style="color:#CCFF00;font-weight:bold" class="btn" ng-click="getActiveTerminalBalance()" role="button">Refresh</a>
+                            
+                                <a href="#!terminalreport" ng-show="users.person_category_id>0" style="color:#CCFF00;font-weight:bold" ng-class="" target="_blank" class="btn pull-right" role="button">Report</a>
+                                <a href="" style="color:#CCFF00;font-weight:bold" class="btn pull-right" role="button" ng-show="showResultDiv" ng-click="showResultDiv=false;">Home</a>
+                                <a href="" style="color:#CCFF00;font-weight:bold" class="btn pull-right" role="button" ng-show="!showResultDiv" ng-click="showResultDiv=true;getResultListByDate(todayDate)">Result</a>
+                            </div>
+                            <div  style="background-color:white" id="main-div" class="d-flex">
+                                <div class="col-1">
+                                    <img ng-show="liveAnimationFlag" src="img/live.gif" width="120px" height="50px" style="margin-left:-35px">
+                                </div>
+                                <div class="col-10">
+                                    
+                                    <!-- game-table -->
+                                    <table ng-show="!showResultDiv" id="game-table" style="width:auto !important;height:max-content" border="0" align="center">
+                                        <tbody>
+                                            <tr class="text-center heading-style">
+                                                <td style="background-color:white"></td>
+                                                <td>Mrp</td>
+                                                <td>Win</td>
+                                                <td>1</td>
+                                                <td>2</td>
+                                                <td>3</td>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>6</td>
+                                                <td>7</td>
+                                                <td>8</td>
+                                                <td>9</td>
+                                                <td>0</td>
+                                                <td>Qty</td>
+                                                <td>Amount</td>
+                                                <td> </td>
+                                            </tr>
+
+                                            <tr class="text-center">
+                                                <td class="game-name">{{ allSeriesList[0].series_name }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[0].mrp }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[0].winning_price }} </td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[1]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[2]" class="inputBox "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[3]" class="inputBox "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[4]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[5]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[6]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[7]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[8]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[9]" class="inputBox  "></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesOne[0]" class="inputBox  "></td>
+                                                <td><input hide-zero type="text" class="inputBoxTotal" ng-model="totalBoxSum1" readonly></td>
+                                                <td><input hide-zero type="text" class="inputBoxTotal" ng-model="totalTicketBuy1" readonly></td>
+                                                <td><input type="text" class="inputBox   result-in-top font-weight-bold text-center" ng-value="winningValue[0].result_box"  readonly></td>
+                                            
+                                            </tr>
+
+                                            <tr class="text-center">
+                                                <td class="game-name">{{ allSeriesList[1].series_name }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[1].mrp }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[1].winning_price }}</td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[1]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[2]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[3]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[4]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[5]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[6]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[7]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[8]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[9]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesTwo[0]" class="inputBox"></td>
+                                                <td><input hide-zero type="text" class="inputBoxTotal" ng-model="totalBoxSum2" readonly></td>
+                                                <td><input hide-zero type="text" class="inputBoxTotal" ng-model="totalTicketBuy2" readonly></td>
+                                                <td><input type="text" class="inputBox   result-in-top font-weight-bold text-center" ng-value="winningValue[1].result_box" readonly></td>
+                                            
+                                            </tr>
+
+                                            <tr class="text-center">
+                                                <td class="game-name">{{ allSeriesList[2].series_name }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[2].mrp }}</td>
+                                                <td style="font-size: 15px;">{{ allSeriesList[2].winning_price }}</td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[1]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[2]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[3]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[4]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[5]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[6]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[7]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[8]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[9]" class="inputBox"></td>
+                                                <td><input numbers-only maxlength="2" type="tel" ng-model="seriesThree[0]" class="inputBox"></td>
+                                                <td><input hide-zero type="text"  class="inputBoxTotal" ng-model="totalBoxSum3" readonly></td>
+                                                <td><input hide-zero type="text" class="inputBoxTotal" ng-model="totalTicketBuy3" readonly></td>
+                                                <td><input type="text" class="inputBox   result-in-top font-weight-bold text-center" ng-value="winningValue[2].result_box" readonly></td>
+                                            
+                                            </tr>
+                                        
+
+                                            <tr>
+                                                <td colspan="10"></td>
+                                                <td>
+                                                    <button type="button" class="group-box btn-success" ng-click="submitGameValues(seriesOne,seriesTwo,seriesThree)" ng-disabled="disableSubmitButton">Buy</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="group-box btn-info" ng-click="clearInputBox()">Clear</button>
+                                                </td>
+                                                <td style="color:#ffffff;font-size: 20px;">Total</td>
+                                                <td><input hide-zero type="text" class="inputBox" ng-model="sumOfBox" readonly></td>
+                                                <td><input hide-zero type="text" class="inputBox" ng-model="sumOfTicketPurchased" readonly style="margin-left: 15px;"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>   
+
+                                <!-- end of game table -->
+                                    <!-- result-table  -->
+                                    <div class="row col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="showResultDiv">
+                                    
+                                            <div class="row col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                                    <div class="col-lg-8 col-md-8 col-xs-8 col-sm-8">
+                                                        <input type="date" class="" ng-model="result_date">
+                                                        <a href="#" class="btn btn-danger rounded-circle" ng-click="getResultListByDate(result_date)" role="button">Show</a>
+                                                    </div>
+                                            </div>
+
+                                        
+
+                                        <table align="center" style="width: 100%;color:black;margin-left:-30px" cellpadding="0" cellspacing="0" class="table table-bordered table-hover report-table small text-justify">
+                                            <thead>
+                                                    <tr height="33" align="center">
+                                                        <th class="text-center text-white font-weight-bold bg-secondary">Date</th>
+                                                        <th class="text-center text-white font-weight-bold bg-info">Draw time</th>
+                                                        <th class="text-center font-weight-bold" width="20%">{{ allSeriesList[0].series_name }}</th>
+                                                        <th class="text-center font-weight-bold" width="20%">{{ allSeriesList[1].series_name }}</th>
+                                                        <th class="text-center font-weight-bold" width="20%">{{ allSeriesList[2].series_name }}</th>                                            
+                                                    </tr>                                           
+                                            </thead>                                          
+                                            
+                                                <tbody>
+                                                    <tr height="33" align="center" data-ng-if="resultBydate.length==0">
+                                                        <td class="text-center text-dark font-weight-bold" width="20%" >No result</td>
+                                                        <td class="text-center" width="20%" >XX</td>
+                                                        <td class="text-center" width="20%">XX</td>
+                                                        <td class="text-center" width="20%">XX</td>
+                                                        <td class="text-center" width="20%">XX</td>
+
+                                                    </tr>
+                                                
+                                                    <tr height="33" align="center" ng-repeat="x in resultBydate" ng-class="$index==0? 'blink_text' : ''">
+                                                        <td class="text-center text-dark font-weight-bold" width="20%" style="background-color:#9DD929"> {{ x.draw_date}}</td>
+                                                        <td class="text-center" width="20%"> {{x.end_time }}</td>
+                                                        <td class="text-center result-sheet-style" width="20%"> {{x.ap}}</td>
+                                                        <td class="text-center result-sheet-style" width="20%" > {{ x.jp }}</td>
+                                                        <td class="text-center result-sheet-style" width="20%"> {{ x.sevenStar }}</td>
+                                                    </tr>
+                                                    
+                                                </tbody>		 	
+                                        </table>
+                                    
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-1">
+                                    <!-- <img ng-show="liveAnimationFlag" src="img/live.gif" width="120px" height="50px" style="margin-left:-35px"> -->
+                                </div>                       
+                            
+                            </div>
+                        </div>
+                
+                </div>
+                    <!-- end of show only single result div-->
+                    <div class="submit text-white" style="background-color:#222">
+                                                                
+                        
+                    </div>
+
+                <div class="d-flex footerContent p-3 text-justify">
+                    It's a amusement Game. So  use of  this website as lottery or any other illegal means is strictly prohibited.
+Viewing this website is on your own risk. All the information shown here is sponsored and we warn you that Amusement  Numbers are only for fun.
+We are not responsible for any issues or scam. We respect all country, state rules/laws. If you not agree with our site disclaimer. Please quit our site right now.
+@Copyright2019 All rights reserved to GoaStar software development co..
+                </div>
+        </div>
+    </div>
+</div>
+                <div class="d-flex" ng-show="false">
+                        <div class="col-3"><pre>loggedInTerminalBalance={{loggedInTerminalBalance | json}}</pre></div>
+                        <!--<div class="col-3"><pre>seriesOne={{seriesOne}}</pre></div>
+                        <div class="col-3"><pre>seriesTwo={{seriesTwo | json}}</pre></div>
+                        <div class="col-3"><pre>seriesThree={{seriesThree | json}}</pre></div>-->
+                </div>
+        
+
+
+<!--        PRINT PAGE-->
+
+<div class="container" id="receipt-div" ng-show="false" ng-repeat="x in barcodeList">
+    <div ng-repeat="x in barcodeList">
+        <h4> x.bcd}}</h4>
+        <div class="d-flex col-12 mt-1 pl-0">
+            <label  class="col-2">Barcode</label>
+            <div class="col-6">
+                <span ng-bind="x.bcd">: </span>
+            </div>
+        </div>
+        <div class="d-flex col-12 mt-1 pl-0">
+            <label  class="col-3">Commander 2DIGIT </label>
+        </div>
+
+        <div class="d-flex col-12 mt-1 pl-0">
+            <label  class="col-1">Date:</label><span ng-bind="purchase_date"></span>
+
+            <label  class="col-1">Dr.Time:</label> <span ng-bind="ongoing_draw" class="col-1"></span>
+        </div>
+        <hr style="border-top: dotted 1px;" />
+
+        <div class="d-flex flex-wrap align-content-start">
+            <div class="p-2" ng-repeat="i in allGameValue track by $index">
+                i + ','
+
+            </div>
+        </div>
+
+
+        <hr style="border-top: dotted 1px;" />
+        <div class="d-flex col-12" style="color:black">
+            <label  class="col-1">MRP</label><span>: seriesList   .mrp</span>
+            <label  class="col-1">Qty:</label> <span ng-bind="totalticket_qty| number:2"></span>
+            <label  class="col-2">purchase_time</label>
+        </div>
+        <div class="d-flex col-12">
+            <label  class="col-1">Rs:</label><span ng-bind="totalticket_purchase|number: 2"></span>
+        </div>
+        <div class="d-flex col-12">
+            <label  class="col-2">Terminal Id</label><span>: </span>
+
+        </div>
+        <div class="d-flex col-12">
+            <angular-barcode ng-model="x.bcd" bc-options="barcodeOilBill" bc-class="barcode" bc-type="img"></angular-barcode>
+        </div>
+
+    </div>
+
+
+</div>
+
+

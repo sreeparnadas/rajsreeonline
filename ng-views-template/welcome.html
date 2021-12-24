@@ -365,6 +365,9 @@
                                                 <td>
                                                     <button type="button" class="group-box btn-info" ng-click="clearInputBox()">Clear</button>
                                                 </td>
+                                                <td>
+                                                    <div class="ml-1" style="font-size: 18px" ><input type="checkbox" ng-model="printTicketCheck">Print</div>
+                                                </td>
                                                 <td style="color:#ffffff;font-size: 20px;">Total</td>
                                                 <td><input hide-zero type="text" class="inputBox" ng-model="sumOfBox" readonly></td>
                                                 <td><input hide-zero type="text" class="inputBox" ng-model="sumOfTicketPurchased" readonly style="margin-left: 15px;"></td>
@@ -444,7 +447,7 @@ We are not responsible for any issues or scam. We respect all country, state rul
                 </div>
         </div>
     </div>
-</div>
+
                 <div class="d-flex" ng-show="false">
                         <div class="col-3"><pre>loggedInTerminalBalance={{loggedInTerminalBalance | json}}</pre></div>
                         <!--<div class="col-3"><pre>seriesOne={{seriesOne}}</pre></div>
@@ -456,54 +459,125 @@ We are not responsible for any issues or scam. We respect all country, state rul
 
 <!--        PRINT PAGE-->
 
-<div class="container" id="receipt-div" ng-show="false" ng-repeat="x in barcodeList">
-    <div ng-repeat="x in barcodeList">
-        <h4> x.bcd}}</h4>
-        <div class="d-flex col-12 mt-1 pl-0">
-            <label  class="col-2">Barcode</label>
-            <div class="col-6">
-                <span ng-bind="x.bcd">: </span>
-            </div>
-        </div>
-        <div class="d-flex col-12 mt-1 pl-0">
-            <label  class="col-3">Commander 2DIGIT </label>
-        </div>
+<div class="container m-0 p-0" id="receipt-div" style="max-width: 75px; white-space:nowrap;font-size: smaller; page-break-after: always" ng-show="false">
 
-        <div class="d-flex col-12 mt-1 pl-0">
-            <label  class="col-1">Date:</label><span ng-bind="purchase_date"></span>
-
-            <label  class="col-1">Dr.Time:</label> <span ng-bind="ongoing_draw" class="col-1"></span>
+    <!--                <div id="print-div" style="font-weight: 700;font-size: smaller;width: 500px;">-->
+    <div id="print-div" style="width: 500px;">
+        <div class="m-0 p-0"><b>Rajsreeonline</b></div>
+        <div class="d-flex flex-column">
+<!--            <div class="">Game Name: Rajsreeonline</div>-->
+            <div class="">Terminal: {{users.userLoginid}}</div>
+            <div class="">Ticket id: {{reportArray.barcode}}</div>
+            <div class="">Date: {{reportArray.purchase_date | date: 'dd/MM/yyyy'}}</div>
+            <div class="">Draw Time: {{(drawTimeList.end_time>12)?12-drawTimeList.end_time + "PM":drawTimeList.end_time + "AM"}}</div>
+            <div class="">Ticket time {{reportArray.purchase_time}}</div>
         </div>
-        <hr style="border-top: dotted 1px;" />
-
-        <div class="d-flex flex-wrap align-content-start">
-            <div class="p-2" ng-repeat="i in allGameValue track by $index">
-                i + ','
-
-            </div>
-        </div>
-
-
-        <hr style="border-top: dotted 1px;" />
-        <div class="d-flex col-12" style="color:black">
-            <label  class="col-1">MRP</label><span>: seriesList   .mrp</span>
-            <label  class="col-1">Qty:</label> <span ng-bind="totalticket_qty| number:2"></span>
-            <label  class="col-2">purchase_time</label>
-        </div>
-        <div class="d-flex col-12">
-            <label  class="col-1">Rs:</label><span ng-bind="totalticket_purchase|number: 2"></span>
-        </div>
-        <div class="d-flex col-12">
-            <label  class="col-2">Terminal Id</label><span>: </span>
-
-        </div>
-        <div class="d-flex col-12">
-            <angular-barcode ng-model="x.bcd" bc-options="barcodeOilBill" bc-class="barcode" bc-type="img"></angular-barcode>
-        </div>
-
     </div>
 
+    <div class="d-flex m-0 p-0" style="line-height: 0.6;outline:none; display:inline-block;" ng-if="playSeriesId1.length != 0">
+        <table>
+            <tr>
+                <label ng-if="playSeriesId1">SK</label>
+                <td ng-repeat="x in playSeriesId1 track by $index">
+                    <div class="col-1 m-0 p-0" ><u>{{x.input_box}}-{{x.input_value}}</u></div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
+    <div class="d-flex m-0 p-0" style="line-height: 0.6;outline:none;" ng-if="playSeriesId2.length != 0">
+        <table>
+            <tr>
+                <label ng-if="playSeriesId2">GA</label>
+                <td ng-repeat="x in playSeriesId2 track by $index">
+                    <div class="col-1 m-0 p-0" ><u>{{x.input_box}}-{{x.input_value}}</u></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="d-flex m-0 p-0" style="line-height: 0.6;outline:none; display:inline-block;" ng-if="playSeriesId3.length != 0">
+        <table>
+            <tr>
+                <label ng-if="playSeriesId3">MB</label>
+                <td ng-repeat="x in playSeriesId3 track by $index">
+                    <div class="col-1" ><u>{{x.input_box}}-{{x.input_value}}</u></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="">
+            <angular-barcode ng-model="reportArray.barcode" bc-options="barcodeOilBill" bc-class="barcode" bc-type="img" bc-options="width: 1, height: 50"></angular-barcode>
+        </div>
+
+
+<!--    <div class="d-flex m-0 p-0" ng-if="playSeriesId2.length != 0">-->
+<!--        <label ng-if="playSeriesId2">GA</label>-->
+<!--        <div class="col m-0 p-0" ng-repeat="x in playSeriesId2 track by $index"><u>{{x.input_box}}-{{x.input_value}}</u></div><br>-->
+<!--    </div>-->
+<!--    <div class="d-flex m-0 p-0" ng-if="playSeriesId3.length != 0">-->
+<!--        <label ng-if="playSeriesId2">MB</label>-->
+<!--        <div class="col m-0 p-0" ng-repeat="x in playSeriesId3 track by $index"><u>{{x.input_box}}-{{x.input_value}}</u></div><br>-->
+<!--    </div>-->
+
+
+
+
+</div>
+
+
+
+
+<!--<div class="container" id="receipt-div" ng-show="true" ng-repeat="x in barcodeList">-->
+<!--    <div ng-repeat="x in barcodeList">-->
+<!--        <h4> x.bcd}}</h4>-->
+<!--        <div class="d-flex col-12 mt-1 pl-0">-->
+<!--            <label  class="col-2">Barcode</label>-->
+<!--            <div class="col-6">-->
+<!--                <span ng-bind="x.bcd">: </span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="d-flex col-12 mt-1 pl-0">-->
+<!--            <label  class="col-3">Commander 2DIGIT </label>-->
+<!--        </div>-->
+
+<!--        <div class="d-flex col-12 mt-1 pl-0">-->
+<!--            <label  class="col-1">Date:</label><span ng-bind="purchase_date"></span>-->
+
+<!--            <label  class="col-1">Dr.Time:</label> <span ng-bind="ongoing_draw" class="col-1"></span>-->
+<!--        </div>-->
+<!--        <hr style="border-top: dotted 1px;" />-->
+
+<!--        <div class="d-flex flex-wrap align-content-start">-->
+<!--            <div class="p-2" ng-repeat="i in allGameValue track by $index">-->
+<!--                i + ','-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+
+<!--        <hr style="border-top: dotted 1px;" />-->
+<!--        <div class="d-flex col-12" style="color:black">-->
+<!--            <label  class="col-1">MRP</label><span>: seriesList   .mrp</span>-->
+<!--            <label  class="col-1">Qty:</label> <span ng-bind="totalticket_qty| number:2"></span>-->
+<!--            <label  class="col-2">purchase_time</label>-->
+<!--        </div>-->
+<!--        <div class="d-flex col-12">-->
+<!--            <label  class="col-1">Rs:</label><span ng-bind="totalticket_purchase|number: 2"></span>-->
+<!--        </div>-->
+<!--        <div class="d-flex col-12">-->
+<!--            <label  class="col-2">Terminal Id</label><span>: </span>-->
+
+<!--        </div>-->
+<!--        <div class="d-flex col-12">-->
+<!--            <angular-barcode ng-model="x.bcd" bc-options="barcodeOilBill" bc-class="barcode" bc-type="img"></angular-barcode>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+
+<!--</div>-->
 </div>
 
 

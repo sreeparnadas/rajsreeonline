@@ -1,7 +1,7 @@
 app.controller("ManualResultCtrl", function ($scope,$http,$filter,$rootScope,dateFilter,$timeout,$interval,$window) {
     $scope.msg = "This is ManualResultCtrl controller";
     $scope.tab = 1;
-    $rootScope.checkAuthentication();
+
     $scope.setTab = function(newTab){
         $scope.tab = newTab;
     };

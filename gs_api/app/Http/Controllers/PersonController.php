@@ -26,7 +26,7 @@ class PersonController extends Controller
 
         if($person==NULL){
             $stockist = Stockist::select("id","stockist_unique_id","stockist_name as people_name","user_id","user_id","serial_number"
-            ,"current_balance","person_category_id","is_loggedin","inforce","uuid","created_at","updated_at")
+                ,"current_balance","person_category_id","is_loggedin","inforce","uuid","created_at","updated_at")
                 ->where(['user_id'=> $user_id,'user_password'=>$password])->first();
         }
 
@@ -36,21 +36,21 @@ class PersonController extends Controller
 
         //$person->ip_address = $clientIP;
 
-        if((isset($person->is_loggedin) && $person->is_loggedin == 1 && $person->person_category_id!=1) || (isset($stockist->is_loggedin) && $stockist->is_loggedin == 1))
-        {
-            $arrResponse = ['success'=>false,'isLoggedIn'=>false,'person_name'=>'','uuid'=>'','msg'=>'This account is already loggedin'];
-        }
-
-        if ((!empty($person) && $person->is_loggedin!=1) || (!empty($person) && $person->person_category_id==1)){
+        if ((!empty($person))){
             $person->uuid=(string)Uuid::generate();
             $person->is_loggedin = 1;
             $result=$person->save();
             $StockistToTerminal=Person::find($person->id)->StockistToTerminal->first();
+            if($person->user_password==$person->default_password){
+                $resetPassword =true;
+            }else{
+                $resetPassword =false;
+            }
+            $person->setAttribute('reset_password',$resetPassword);
             $arrResponse = ['success'=>$result,'isLoggedIn'=>$result,'person'=>$person,'StockistToTerminal'=>$StockistToTerminal,'msg'=>'Login Successful'];
         }
 
-
-        if (!empty($stockist) && $stockist->is_loggedin!=1){
+        if (!empty($stockist)){
             $stockist->uuid=(string)Uuid::generate();
             $stockist->is_loggedin = 1;
             $result=$stockist->save();
@@ -96,5 +96,22 @@ class PersonController extends Controller
         if($person->is_loggedin == 1){
             return 1;
         }
+    }
+
+
+    public function resetAdminPassword(request $request){
+        $user_data=(object)($request->json()->all());
+
+        $userId = $user_data->userId;
+        $userPsw = $user_data->psw;
+
+        $updateInfo = Person::where('id',$userId)->update(['user_password'=>$userPsw]);
+
+        if($updateInfo==1){
+            return response()->json(array('success' => 1, 'message' => 'Successfully recorded'),200);
+        }else{
+            return response()->json(array('success' => 0, 'message' => 'Something went wrong'),401);
+        }
+
     }
 }

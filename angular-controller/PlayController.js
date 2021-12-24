@@ -1,6 +1,29 @@
 app.controller('PlayController', function($cookies,$scope,$rootScope,$q,md5,$mdDialog,$timeout,toaster,$http,$interval,$q,RegistrationService,ParticipantService,$window,proofService,localStorageService) {
     $scope.msg = "This is play controller";
     $scope.disableSubmitButton=false;
+
+
+     $scope.barcodeOilBill = {
+        format: 'CODE128',
+        lineColor: '#000000',
+        width: 1,
+        height: 25,
+        displayValue: true,
+        fontOptions: '',
+        font: 'monospace',
+        textAlign: 'center',
+        textPosition: 'bottom',
+        textMargin: 2,
+        fontSize: 11,
+        background: '#ffffff',
+        margin: 0,
+        marginTop: undefined,
+        marginBottom: undefined,
+        marginLeft: undefined,
+        marginRight: undefined,
+        valid: function (valid) {
+        }
+    }
     
     $scope.getAllSeriesName = function(){
         $http({
@@ -145,8 +168,11 @@ app.controller('PlayController', function($cookies,$scope,$rootScope,$q,md5,$mdD
         $scope.getTotalBuyTicket($scope.seriesThree,2)
     }, true);
 
+    $scope.printTicketCheck = false;
+
     
     $scope.submitGameValues=function (seriesOne,seriesTwo,seriesThree) {
+        $scope.totalColumnToPrintReceipt = 5;
         $scope.disableSubmitButton = true;
         var userId = $scope.users.userId;
         if($scope.drawTimeList!= undefined){
@@ -199,6 +225,23 @@ app.controller('PlayController', function($cookies,$scope,$rootScope,$q,md5,$mdD
             $scope.disableSubmitButton = false;
             return;
         }
+
+        $scope.playSeriesId1 = alasql("select * from ? where play_series_id = ?",[masterData,1]);
+        $scope.playSeriesId2 = alasql("select * from ? where play_series_id = ?",[masterData,2]);
+        $scope.playSeriesId3 = alasql("select * from ? where play_series_id = ?",[masterData,3]);
+
+        $scope.inputDetails = masterData;
+
+        // $timeout(function() {
+        //     var htmlToPrint = document.getElementById("receipt-div").innerHTML;
+        //     var newWin = window.document.write(htmlToPrint);
+        //     window.print();
+        //     location.reload();
+        //     // window.print();
+        //
+        // }, 1000);
+        //
+        // return;
         
         var request = $http({
             method: 'POST',
@@ -214,13 +257,29 @@ app.controller('PlayController', function($cookies,$scope,$rootScope,$q,md5,$mdD
         }).then(function(response){
             $scope.reportArray = response.data;
             if($scope.reportArray.success == 1){
+
+                if($scope.printTicketCheck) {
+
+                    $timeout(function () {
+                        var htmlToPrint = document.getElementById("receipt-div").innerHTML;
+                        var newWin = window.document.write(htmlToPrint);
+                        window.print();
+                        location.reload();
+                        // window.print();
+
+                    }, 1000);
+                }
+
+                // $timeout(function() {
+                //     $rootScope.huiPrintDiv('receipt-div','test_style.css',1);
+                // }, 1000);
+
                 $scope.showAlert(this.ev,"Print done",'');
                 $scope.loggedInTerminalBalance.current_balance = $scope.reportArray.current_balance;
                 $scope.clearInputBox();
                 $scope.disableSubmitButton=false;
             }
         });
-
 
     };
 

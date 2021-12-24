@@ -10,10 +10,10 @@ api_url1=urlArray[0]+"//"+urlArray[2]+"/"+"photography_api"+"/"+"public/api";
 api_url=urlArray[0]+"//"+urlArray[2]+"/"+"gs_api"+"/"+"public/api";
 
 //FOR SERVER
-// var base_url=urlArray[0]+'/'+urlArray[1]+'/'+urlArray[2]+'/';
+ var base_url=urlArray[0]+'/'+urlArray[1]+'/'+urlArray[2]+'/';
 
 // For local environment
-var base_url=urlArray[0]+'/'+urlArray[1]+'/'+urlArray[2]+'/'+urlArray[3]+'/';
+//var base_url=urlArray[0]+'/'+urlArray[1]+'/'+urlArray[2]+'/'+urlArray[3]+'/';
 entrant_image_url=urlArray[0]+"//"+urlArray[2]+"/"+"photography_api"+"/"+"public/entrant_pictures";
 
 app.config(['$httpProvider', function($httpProvider) {
@@ -1119,3 +1119,20 @@ app.run(function($rootScope){
         return parseFloat(parseFloat(number).toFixed(decimalPlaces));
     };
 });
+
+app.factory('authFact',[function(){
+    var authFact = {};
+
+    authFact.setAccessToken = function(accessToken){
+        authFact.authToken = accessToken;
+    };
+
+    authFact.getAccessToken = function(){
+        return authFact.authToken;
+    };
+
+    authFact.unsetAccessToken = function(){
+        authFact.authToken = '';
+    };
+    return authFact;
+}]);

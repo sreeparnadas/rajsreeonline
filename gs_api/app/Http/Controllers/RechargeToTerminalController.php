@@ -89,14 +89,14 @@ class RechargeToTerminalController extends Controller
                     , max(play_details.input_value) as game_value
                     , max(draw_masters.start_time) as start_time
                     , TIME_FORMAT(max(draw_masters.end_time),'%h:%i:%s %p') as draw_time
-                    ,TIME_FORMAT(play_masters.created_at, '%h:%i:%s %p') as ticket_taken_time
+                    ,TIME_FORMAT(max(play_masters.created_at), '%h:%i:%s %p') as ticket_taken_time
                     from play_details
                     inner join play_masters ON play_masters.id = play_details.play_master_id
                     inner join draw_masters ON draw_masters.id = play_masters.draw_master_id
                     inner join play_series ON play_series.id = play_details.play_series_id
                     inner join people on people.id = play_masters.terminal_id
                     where date(play_masters.created_at)=?
-                    group by play_details.play_master_id,play_details.play_series_id ,play_details.input_box) as table1
+                    group by play_details.play_master_id,play_masters.id,play_masters.barcode_number,play_details.play_series_id ,play_details.input_box) as table1
                     group by barcode order by draw_master_id desc,ticket_taken_time desc) as table2",[$startDate]);
         echo json_encode($reportData,JSON_NUMERIC_CHECK);
     }
@@ -113,8 +113,8 @@ class RechargeToTerminalController extends Controller
                 inner join play_details on play_masters.id=play_details.play_master_id
                 inner join play_series on play_series.id=play_details.play_series_id
                 where play_masters.barcode_number=?
-                group by play_details.play_series_id,play_details.input_box,play_details.input_value
-                order by play_details.play_series_id,input_box) as table1 group by play_series_id",[$barcode]);
+                group by play_details.play_series_id,series_name,play_details.input_box,play_details.input_value
+                order by play_details.play_series_id,input_box) as table1 group by play_series_id,series_name",[$barcode]);
         echo json_encode($reportData,JSON_NUMERIC_CHECK);
     }
 
@@ -142,6 +142,14 @@ class RechargeToTerminalController extends Controller
         $startDate = $requestedData->startDate;
 
         $reportData = DB::select('call digit_barcode_report_from_terminal(?,?)',array($terminalId,$startDate));
+        echo json_encode($reportData,JSON_NUMERIC_CHECK);
+    }
+
+
+    public function getTotalBoxInput(request $request){
+        $requestedData = (object)($request->json()->all());
+        $drawId = $requestedData->draw_id;
+        $reportData = DB::select('call  game_wise_total_input(?)',array($drawId));
         echo json_encode($reportData,JSON_NUMERIC_CHECK);
     }
 }
